@@ -1,8 +1,12 @@
+<!-- <?php
+  ob_start();
+?> -->
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  \
   <title>AdminLTE 2 | Boxed Layout</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -27,20 +31,6 @@
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-    <style type="text/css">
-    table {
-      border-collapse: collapse;
-      width: 80%;
-      margin: 0 auto;
-    }
-    table, th, td {
-      border: 1px solid gray;
-    }
-    img {
-      width: 100px;
-      height: 100px;
-    }
-  </style>
 </head>
 <!-- ADD THE CLASS layout-boxed TO GET A BOXED LAYOUT -->
 <body class="hold-transition skin-blue layout-boxed sidebar-mini">
@@ -76,7 +66,7 @@
                 <img src="dist/img/member.jpg" class="img-circle" alt="User Image">
 
                 <p>
-                  Vo Long Phat - Web Developer
+                  Vo Long Phat
                   <small>Member since 2018</small>
                 </p>
               </li>
@@ -119,46 +109,44 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-      
-  <?php include 'connect_db.php';?>
+      <?php include 'connect_db.php';?>
+  <!-- include, include_once, require, require_once; -->
   <?php 
-    $sql = "SELECT * FROM users";
-    $listUsers = mysqli_query($conn, $sql);
-  ?>
-  <h1>User list</h1>
-  <table>
-    <tr>
-      <th>ID</th>
-      <th>Username</th>
-      <th>Password</th>
-      <th>Phone</th>
-      <th>Email</th>
-      <th>Action</th>
-    </tr>
-    <?php if ($listUsers->num_rows > 0){?>
-    <?php while($user = $listUsers->fetch_assoc()) {
-      
-      ?>
-        <tr>
-          <td><?php echo $user['id']; ?></td>
-          <td><?php echo $user['username']; ?></td>
-          <td><?php echo $user['password']; ?></td>
-          <td><?php echo $user['phone']; ?></td>
-          <td><?php echo $user['email']; ?></td>
-          <td>
-            <a href="edit_user.php?idEdit=<?php echo $user['id']?>">EDIT</a> 
-            | <a href="delete_user.php?id=<?php echo $user['id']?>">DELETE</a> 
+    if (isset($_POST['add_news'])) {
+      $title        = $_POST['title'];
+      $description  = $_POST['description'];
+      $content      = $_POST['content'];
+      $image        = $_FILES['image'] ;
+      $imageName    = uniqid().'_'.$image['name'];
+      $created      = $_POST['created'];
+      $updated      = $_POST['updated'];
+      // xu ly upload anh
+      $targetUpload = 'uploads/'.$imageName;
+      move_uploaded_file($image['tmp_name'], $targetUpload);
+      // ket thuc xu ly upload anh
 
-          </td>
-        </tr>
-    <?php 
-        }
-      } else {?>
-      <tr>
-        <td colspan="7" style="text-align: center;">No user</td>
-      </tr>
-    <?php }?>
-  </table>
+      $sql = "INSERT INTO news(title, description, content, image,  created, updated) 
+      VALUES ('$title', '$description', '$content', '$imageName', '$created', '$updated')";
+      
+      if (mysqli_query($conn, $sql) === TRUE) {
+       header("Location: list_news.php");
+      }
+      // echo "<pre>";
+      // var_dump($sql);
+      // echo "<pre>";
+    }
+    
+  ?>
+  <h1>Add news</h1>
+  <form action="" method="POST" enctype="multipart/form-data">
+    <p>News title: <input type="text" name="title" placeholder="Please input news title"></p>
+    <p>News description: <textarea name="description" rows="10" cols="30"></textarea></p>
+    <p>News content: <input type="text" name="content" placeholder="Please input news content"></p>
+    <p>News image: <input type="file" name="image"></p>
+    <p>News create: <input type="datetime-local" name="created"></p>  
+    <p>News update: <input type="datetime-local" name="updated"></p>
+    <p><input type="submit" name="add_news" value="Add news"></p>
+  </form>
   </div>
   <!-- /.content-wrapper -->
 
@@ -186,3 +174,6 @@
 <script src="js/demo.js"></script>
 </body>
 </html>
+<!-- <?php
+  ob_end_flush();
+?> -->

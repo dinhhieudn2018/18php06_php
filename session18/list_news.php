@@ -122,32 +122,36 @@
       
   <?php include 'connect_db.php';?>
   <?php 
-    $sql = "SELECT * FROM users";
-    $listUsers = mysqli_query($conn, $sql);
+    $sql = "SELECT * FROM news";
+    $listNews = mysqli_query($conn, $sql);
   ?>
-  <h1>User list</h1>
+  <h1>News list</h1>
   <table>
     <tr>
       <th>ID</th>
-      <th>Username</th>
-      <th>Password</th>
-      <th>Phone</th>
-      <th>Email</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Content</th>
+      <th>Image</th>
+      <th>Date Create</th>
+      <th>Date Update</th>
       <th>Action</th>
     </tr>
-    <?php if ($listUsers->num_rows > 0){?>
-    <?php while($user = $listUsers->fetch_assoc()) {
-      
+    <?php if ($listNews->num_rows > 0){?>
+    <?php while($news = $listNews->fetch_assoc()) {
+      $image = $news['image'];
       ?>
         <tr>
-          <td><?php echo $user['id']; ?></td>
-          <td><?php echo $user['username']; ?></td>
-          <td><?php echo $user['password']; ?></td>
-          <td><?php echo $user['phone']; ?></td>
-          <td><?php echo $user['email']; ?></td>
+          <td><?php echo $news['id']; ?></td>
+          <td><?php echo $news['title']; ?></td>
+          <td><?php echo $news['description']; ?></td>
+          <td><?php echo $news['content']; ?></td>
+          <td><img src="<?php echo 'uploads/'.$image; ?>"></td>
+          <td><?php echo $news['created']; ?></td>
+          <td><?php echo $news['updated']; ?></td>
           <td>
-            <a href="edit_user.php?idEdit=<?php echo $user['id']?>">EDIT</a> 
-            | <a href="delete_user.php?id=<?php echo $user['id']?>">DELETE</a> 
+            <a href="edit_news.php?idEdit=<?php echo $news['id']?>">EDIT</a> 
+            | <a href="delete_news.php?id=<?php echo $news['id']?>">DELETE</a> 
 
           </td>
         </tr>
@@ -155,7 +159,7 @@
         }
       } else {?>
       <tr>
-        <td colspan="7" style="text-align: center;">No user</td>
+        <td colspan="7" style="text-align: center;">No news</td>
       </tr>
     <?php }?>
   </table>

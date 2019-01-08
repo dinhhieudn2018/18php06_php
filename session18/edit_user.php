@@ -1,3 +1,6 @@
+<!-- <?php
+  ob_start();
+?> -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,20 +30,6 @@
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-    <style type="text/css">
-    table {
-      border-collapse: collapse;
-      width: 80%;
-      margin: 0 auto;
-    }
-    table, th, td {
-      border: 1px solid gray;
-    }
-    img {
-      width: 100px;
-      height: 100px;
-    }
-  </style>
 </head>
 <!-- ADD THE CLASS layout-boxed TO GET A BOXED LAYOUT -->
 <body class="hold-transition skin-blue layout-boxed sidebar-mini">
@@ -119,46 +108,75 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-      
-  <?php include 'connect_db.php';?>
+      <?php include 'connect_db.php';?>
+  
   <?php 
-    $sql = "SELECT * FROM users";
-    $listUsers = mysqli_query($conn, $sql);
-  ?>
-  <h1>User list</h1>
-  <table>
-    <tr>
-      <th>ID</th>
-      <th>Username</th>
-      <th>Password</th>
-      <th>Phone</th>
-      <th>Email</th>
-      <th>Action</th>
-    </tr>
-    <?php if ($listUsers->num_rows > 0){?>
-    <?php while($user = $listUsers->fetch_assoc()) {
-      
-      ?>
-        <tr>
-          <td><?php echo $user['id']; ?></td>
-          <td><?php echo $user['username']; ?></td>
-          <td><?php echo $user['password']; ?></td>
-          <td><?php echo $user['phone']; ?></td>
-          <td><?php echo $user['email']; ?></td>
-          <td>
-            <a href="edit_user.php?idEdit=<?php echo $user['id']?>">EDIT</a> 
-            | <a href="delete_user.php?id=<?php echo $user['id']?>">DELETE</a> 
+		$id = $_GET['idEdit'];
+		
+		$sql = "SELECT * FROM users WHERE id = $id";
+		$oldUsersEdit = mysqli_query($conn, $sql);
+		$oldUsers     = $oldUsersEdit->fetch_assoc();
+		$username     = $oldUsers['username'];
+		$password     = $oldUsers['password'];
+		$phone        = $oldUsers['phone'];
+		$email        = $oldUsers['email'];
+		
+		if (isset($_POST['edit_user'])) {
+			$username  = $_POST['username'];
+			$password  = $_POST['password'];
+			$phone     = $_POST['phone'];
+			$email     = $_POST['email'];
+      		
+			
+			$sql = "UPDATE users SET username = '$username', password = '$password', phone = $phone, email = '$email' WHERE id = $id";
+			if (mysqli_query($conn, $sql) === TRUE) {
+				header("Location: list_user.php");
+			}
+		}
+	?>
+         <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Edit user</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" action="" method="POST" enctype="multipart/form-data">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="exampleInputUsername1">Username</label>
+                  <input type="text" name="username" class="form-control" id="exampleInputUsername1" placeholder="Enter Username" value="<?php echo $username ?>">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Password</label>
+                  <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password" value="<?php echo $password ?>">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPhone1">Phone</label>
+                  <input type="text" name="phone" class="form-control" id="exampleInputPhone1" placeholder="Phone" value="<?php echo $phone ?>">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Email</label>
+                  <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Email" value="<?php echo $email ?>">
+                </div>  
+                
+              </div>
+              <!-- /.box-body -->
 
-          </td>
-        </tr>
-    <?php 
-        }
-      } else {?>
-      <tr>
-        <td colspan="7" style="text-align: center;">No user</td>
-      </tr>
-    <?php }?>
-  </table>
+              <div class="box-footer">
+                <button type="submit" name="edit_user" value="Edit user" class="btn btn-primary">Edit user</button>
+              </div>
+            </form>
+          </div>
+          <!-- /.box -->
+
+
+
+        </div>
+      </div>
   </div>
   <!-- /.content-wrapper -->
 
@@ -186,3 +204,6 @@
 <script src="js/demo.js"></script>
 </body>
 </html>
+<!-- <?php
+  ob_end_flush();
+?> -->

@@ -1,4 +1,6 @@
-
+<?php
+  ob_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -114,9 +116,10 @@
       $password     = $_POST['password'];
       $phone        = $_POST['phone'];
       $email        = $_POST['email'];
-      $sql = "INSERT INTO users (username, password, phone, email) VALUES ('$username', '$password', $phone, '$email')";
+      $sql = "INSERT INTO users (username, password, phone, email) 
+      VALUES ('$username', '$password', $phone, '$email')";
       if (mysqli_query($conn, $sql) === TRUE) {
-        header("Location: list_user.php"); 
+        header("Location: list_user.php");
       }
     }
   ?>
@@ -190,3 +193,6 @@
 <script src="js/demo.js"></script>
 </body>
 </html>
+<?php
+  ob_end_flush();
+?>

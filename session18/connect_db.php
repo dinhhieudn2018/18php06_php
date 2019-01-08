@@ -1,5 +1,5 @@
 <?php 
-	$server = 'localhost'; 
+	$server   = 'localhost'; 
 	$username = 'root';
 	$password = ''; 
 	$database = '18php06_shop';
@@ -9,6 +9,7 @@
 	if (mysqli_connect_errno()) {
 	  	echo "Failed to connect to MySQL: " . mysqli_connect_error();
 	}
-
+	// else
+	// 	echo "Connect OK";
 	mysqli_set_charset($conn, "utf8");
 ?>

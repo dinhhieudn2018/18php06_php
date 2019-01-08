@@ -52,8 +52,8 @@
 		<p>Product image: <input type="file" name="image"></p>
 		<img src="uploads/<?php echo $imageName?>">
 		<p>Product amount: <input type="text" name="amount" placeholder="Please input product amount" value="<?php echo $amount ?>"></p>
-    	<p>Product created: <input type="date" name="created" value="<?php echo $created ?>"></p>  
-    	<p>Product update: <input type="date" name="updated" value="<?php echo $updated ?>"></p>
+    	<p>Product created: <input type="date" name="created"></p>  
+    	<p>Product update: <input type="date" name="updated" ></p>
 		<p><input type="submit" name="edit_product" value="Edit product"></p>
 	</form>
 </body>

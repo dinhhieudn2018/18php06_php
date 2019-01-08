@@ -28,6 +28,18 @@
         <li class="header">MAIN NAVIGATION</li>
         <li class="treeview">
           <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Home</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="list_product.php"><i class="fa fa-circle-o"></i> List product</a></li>
+            <li><a href="list_news.php"><i class="fa fa-circle-o"></i> List news</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
             <i class="fa fa-dashboard"></i> <span>Product</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -46,8 +58,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="add_product.php"><i class="fa fa-circle-o"></i> Add news</a></li>
-            <li><a href="list_product.php"><i class="fa fa-circle-o"></i> List news</a></li>
+            <li><a href="add_news.php"><i class="fa fa-circle-o"></i> Add news</a></li>
+            <li><a href="list_news.php"><i class="fa fa-circle-o"></i> List news</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -59,7 +71,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="add_user.php"><i class="fa fa-circle-o"></i> Add user</a></li>
-            <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> List user</a></li>
+            <li><a href="list_user.php"><i class="fa fa-circle-o"></i> List user</a></li>
           </ul>
         </li>
       </ul>
